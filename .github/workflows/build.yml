@@ -1,0 +1,29 @@
+name: Build CLICK-ME-FIRST
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: python -m pip install --upgrade pyinstaller
+
+      - name: Build EXE
+        run: pyinstaller --onefile --windowed --name "CLICK-ME-FIRST" CLICK-ME-FIRST.py
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: CLICK-ME-FIRST-Windows
+          path: dist/CLICK-ME-FIRST.exe
